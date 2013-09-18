@@ -32,7 +32,7 @@ class Character
 			args[:maxhp] = attributes[11].to_i
 			args[:maxmp] = attributes[12].to_i
 			player = Player.new(args)
-			@@player_one = player
+			Player.player_one = player
 		elsif type == :monster
 			args[:maxhp] = args[:hp].to_i
 			args[:maxmp] = args[:mp].to_i
@@ -42,7 +42,7 @@ class Character
 	end
 
 	def initialize(args = {})
-		@name = args[:name].capitalize
+		@name = args[:name]
 		@player_class = args[:player_class]
 		@gold = args[:gold]
 		@level = args[:level]
@@ -58,17 +58,12 @@ class Character
 	end
 
 	def list_stats
-		puts "Name: #{@name}"
-		puts "Class: #{@player_class}"
+		puts "Name: #{@name}	Class: #{@player_class}"
+		puts "Exp: #{@exp}		Level: #{@level}"
 		puts "Gold: #{@gold}"
-		puts "Level: #{@level}"
-		puts "Exp: #{@exp}"
+		puts "HP: #{@hp} / #{@maxhp}	MP: #{@mp} / #{@maxmp}"
+		puts "Attack: #{@attack}	Defense: #{@defense}	Accuracy: #{@acc}"
 		puts "Inventory: #{@inventory}"
-		puts "HP: #{@hp} / #{@maxhp}"
-		puts "MP: #{@mp} / #{@maxmp}"
-		puts "Attack: #{@attack}"
-		puts "Defense: #{@defense}"
-		puts "Accuracy: #{@acc}"
 	end
 
 	def is_dead?
@@ -78,4 +73,5 @@ class Character
 			return false
 		end
 	end
+	
 end

@@ -1,9 +1,10 @@
 require 'player'
 require 'battle'
+require 'shop'
 
 class Game
 
-	@@actions = ["Fight", "Shop", "Inventory", "Stats", "Quit"]
+	@@actions = ['Fight', 'Shop', 'Inventory', 'Stats', 'Quit']
 
 	def self.prompt(text="")
 		print "#{text} > "
@@ -15,7 +16,7 @@ class Game
 
 	def initialize
 		saved_character = File.open('player.csv', 'r').gets
-		if saved_character.nil? # == "" 
+		if saved_character.nil?
 			Player.generate_player
 			get_action
 		else
@@ -41,15 +42,15 @@ class Game
 
 	def do_action(action)
 		case action
-			when "fight"
+			when 'fight'
 				fight
-			when "shop"
+			when 'shop'
 				shop
-			when "inventory"
+			when 'inventory'
 				inventory
-			when "stats"
+			when 'stats'
 				stats
-			when "quit"
+			when 'quit'
 				exit
 			else
 				puts "I don't know that command"
@@ -61,7 +62,7 @@ class Game
 	end
 
 	def shop
-		#work on this next!
+		shop = Shop.new
 	end
 
 	def inventory

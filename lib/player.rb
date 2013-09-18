@@ -2,10 +2,8 @@ require 'character'
 
 class Player < Character
 
-#	@@filepath = 'player.csv'
-
 	@@player_classes = ["Mage", "Rogue", "Warrior"]
-	@@player_one
+	@@player_one = nil
 
 	def self.generate_player
 		args = {}
@@ -21,30 +19,39 @@ class Player < Character
 
 		puts "So, you're a #{args[:player_class]}"
 
-		#generate rest of the stats from a file which
-		#determines strengths and weaknesses based
-		#on class choice
+		generate_stats = File.open('starting_stats.csv','r')
 
-		args[:gold] = 0
-		args[:level] = 1
-		args[:exp] = 0
-		args[:inventory] = "Sword"
-		args[:hp] = 10
-		args[:mp] = 10
-		args[:attack] = 6
-		args[:defense] = 4
-		args[:acc] = 0.8
-		args[:maxhp] = args[:hp]
-		args[:maxmp] = args[:mp]
+		generate_stats.each_line do |line|
+			player_stats = line.split(", ")
+			if player_stats[0] == args[:player_class]
+				args[:gold] = player_stats[1].to_i
+				args[:level] = player_stats[2].to_i
+				args[:exp] = player_stats[3].to_i
+				args[:inventory] = player_stats[4]
+				args[:hp] = player_stats[5].to_i
+				args[:mp] = player_stats[6].to_i
+				args[:attack] = player_stats[7].to_i
+				args[:defense] = player_stats[8].to_i
+				args[:acc] = player_stats[9].to_f
+				args[:maxhp] = args[:hp]
+				args[:maxmp] = args[:mp]
 
-		player = Player.new(args)
-		@@player_one = player
+				player = Player.new(args)
+				@@player_one = player
 
-		player.save
+				player.save
+			end
+		end
+
+		generate_stats.close
 	end
 
 	def self.player_one
 		@@player_one
+	end
+
+	def self.player_one=(player)
+		@@player_one = player
 	end
 
 	def save

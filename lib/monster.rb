@@ -6,8 +6,6 @@ class Monster < Character
 # possibly allow multiple player saves and (obviously) allow a bestiary
 # with more than one monster
 
-#	@@filepath = 'monsters.csv'
-
 	# def load_monster
 	# 	file = File.open("monsters.csv", 'r')
 	# 		line = file.gets
