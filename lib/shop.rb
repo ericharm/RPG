@@ -26,6 +26,15 @@ class Shop
 
 	def buy
 		puts "I have: #{@@shop_inventory}"
+		item_data = {}
+		item_data[:name] = "Potion"
+		item_data[:type] = "Consumable"
+		item_data[:stat] = "hp"
+		item_data[:effect] = 10
+
+		item = Item.new(item_data)
+
+		Player.player_one.inventory.add_item(item)
 	end
 
 	def sell

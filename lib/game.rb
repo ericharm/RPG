@@ -66,7 +66,8 @@ class Game
 	end
 
 	def inventory
-		puts Player.player_one.inventory
+
+		puts Player.player_one.inventory.inv_menu
 	end
 
 	def stats

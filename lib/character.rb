@@ -21,12 +21,14 @@ class Character
 		args[:gold] = attributes[2].to_i
 		args[:level] = attributes[3].to_i
 		args[:exp] = attributes[4].to_i
-		args[:inventory] = attributes[5]
+		#args[:inventory] = attributes[5]
 		args[:hp] = attributes[6].to_i
 		args[:mp] = attributes[7].to_i
 		args[:attack] = attributes[8].to_i
 		args[:defense] = attributes[9].to_i
 		args[:acc] = attributes[10].to_f
+
+		args[:inventory] = Inventory.new
 
 		if type == :player
 			args[:maxhp] = attributes[11].to_i
@@ -47,7 +49,7 @@ class Character
 		@gold = args[:gold]
 		@level = args[:level]
 		@exp = args[:exp]
-		@inventory = args[:inventory]
+	 @inventory = args[:inventory]
 	  @hp = args[:hp]
 	  @mp = args[:mp]
 		@attack = args[:attack]
@@ -55,6 +57,8 @@ class Character
 		@acc = args[:acc]
 	  @maxhp = args[:maxhp]
 	  @maxmp = args[:maxmp]
+
+	#  @inventory = Inventory.new
 	end
 
 	def list_stats
@@ -63,7 +67,7 @@ class Character
 		puts "Gold: #{@gold}"
 		puts "HP: #{@hp} / #{@maxhp}	MP: #{@mp} / #{@maxmp}"
 		puts "Attack: #{@attack}	Defense: #{@defense}	Accuracy: #{@acc}"
-		puts "Inventory: #{@inventory}"
+		puts "Inventory: #{@inventory.list_items}"
 	end
 
 	def is_dead?

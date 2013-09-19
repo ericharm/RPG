@@ -27,7 +27,7 @@ class Player < Character
 				args[:gold] = player_stats[1].to_i
 				args[:level] = player_stats[2].to_i
 				args[:exp] = player_stats[3].to_i
-				args[:inventory] = player_stats[4]
+			#	args[:inventory] = player_stats[4]
 				args[:hp] = player_stats[5].to_i
 				args[:mp] = player_stats[6].to_i
 				args[:attack] = player_stats[7].to_i
@@ -35,6 +35,8 @@ class Player < Character
 				args[:acc] = player_stats[9].to_f
 				args[:maxhp] = args[:hp]
 				args[:maxmp] = args[:mp]
+
+				args[:inventory] = Inventory.new
 
 				player = Player.new(args)
 				@@player_one = player
@@ -58,7 +60,12 @@ class Player < Character
 		file = File.open('player.csv', 'w')
 
 		Hash[instance_variables.map { |name| [name, instance_variable_get(name)] } ]. each do |key,value|
-	 		file.puts value
+			unless key == :inventory
+		 		file.puts value
+		 	else
+		 		file.puts @@player_one.inventory.contents
+		 	end
+
 		end
 
 		file.close
