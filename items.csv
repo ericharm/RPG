@@ -1,0 +1,3 @@
+Name, Type, Stat, Price, Effect, Equipped, Equipable, Usable
+Potion, Consumable, hp, 7, 10, false, false, true
+Ether, Consumable, mp, 7, 10, false, false, true

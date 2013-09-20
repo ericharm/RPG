@@ -6,28 +6,31 @@ class Player < Character
 	@@player_one = nil
 
 	def self.generate_player
-		args = {}
 		Game.prompt("What is your name?")
-		args[:name] = gets.chomp.capitalize
-		puts "Hello, #{args[:name]}."
+		name = gets.chomp.capitalize
+		puts "Hello, #{name}."
+		puts "What class of adventurer are you?"
+		Game.prompt(@@player_classes)
+		player_class = gets.chomp.capitalize until @@player_classes.include?(player_class)
+		puts "So, you're a #{player_class}"
+		args = generate_stats(name, player_class)
+		player = Player.new(args)
+		@@player_one = player
+		player.save
+	end
 
-		until @@player_classes.include?(args[:player_class])
-			puts "What class of adventurer are you?"
-			Game.prompt(@@player_classes)
-			args[:player_class] = gets.chomp.capitalize
-		end
-
-		puts "So, you're a #{args[:player_class]}"
-
-		generate_stats = File.open('starting_stats.csv','r')
-
-		generate_stats.each_line do |line|
+	def self.generate_stats(name, player_class)
+		args = {}
+		file = File.open('starting_stats.csv','r')
+		file.each_line do |line|
 			player_stats = line.split(", ")
-			if player_stats[0] == args[:player_class]
+			if player_stats[0] == player_class
+				args[:name] = name
+				args[:player_class] = player_class
 				args[:gold] = player_stats[1].to_i
 				args[:level] = player_stats[2].to_i
 				args[:exp] = player_stats[3].to_i
-			#	args[:inventory] = player_stats[4]
+				args[:inventory] = player_stats[4]
 				args[:hp] = player_stats[5].to_i
 				args[:mp] = player_stats[6].to_i
 				args[:attack] = player_stats[7].to_i
@@ -35,17 +38,58 @@ class Player < Character
 				args[:acc] = player_stats[9].to_f
 				args[:maxhp] = args[:hp]
 				args[:maxmp] = args[:mp]
-
 				args[:inventory] = Inventory.new
-
-				player = Player.new(args)
-				@@player_one = player
-
-				player.save
 			end
 		end
+		file.close
+		return args
+	end
 
-		generate_stats.close
+	def self.load_player_from_file
+
+		attributes = []
+		args = {}
+
+		file = File.open('player.csv', 'r')
+
+		file.each_line do |line|
+			attributes << line.chomp
+		end
+
+		args[:name] = attributes[0]
+		args[:player_class] = attributes[1]
+		args[:gold] = attributes[2].to_i
+		args[:level] = attributes[3].to_i
+		args[:exp] = attributes[4].to_i
+		args[:inventory] = attributes[5]
+		args[:hp] = attributes[6].to_i
+		args[:mp] = attributes[7].to_i
+		args[:attack] = attributes[8].to_i
+		args[:defense] = attributes[9].to_i
+		args[:acc] = attributes[10].to_f
+		args[:inventory] = Inventory.new
+		args[:maxhp] = attributes[11].to_i
+		args[:maxmp] = attributes[12].to_i
+
+		player = Player.new(args)
+		load_inventory(player)
+		Player.player_one = player
+	end
+
+	def self.load_inventory(target)
+		attributes = []
+		file = File.open('player.csv', 'r')
+		file.each_line do |line|
+			attributes << line.chomp
+		end
+		
+		clean_items_string = attributes[13].tr('"[]',"")
+		items_to_create = clean_items_string.split(", ")
+
+		items_to_create.each do |item_name|
+			item = Item.load_item_from_file(item_name)
+			target.inventory.contents << item
+		end
 	end
 
 	def self.player_one
@@ -56,18 +100,25 @@ class Player < Character
 		@@player_one = player
 	end
 
+	def list_stats
+		puts "\n > > > #{@name.upcase}"
+		puts "Class: #{@player_class}"
+		puts "Exp: #{@exp}		Level: #{@level}"
+		puts "Gold: #{@gold}"
+		puts "HP: #{@hp} / #{@maxhp}	MP: #{@mp} / #{@maxmp}"
+		puts "Attack: #{@attack}	Defense: #{@defense}	Accuracy: #{@acc}"
+		puts "Inventory: #{@inventory.list_items}"
+	end
+
 	def save
 		file = File.open('player.csv', 'w')
 
 		Hash[instance_variables.map { |name| [name, instance_variable_get(name)] } ]. each do |key,value|
-			unless key == :inventory
-		 		file.puts value
-		 	else
-		 		file.puts @@player_one.inventory.contents
-		 	end
-
+				file.puts value
 		end
 
+		file.print @inventory.list_items
 		file.close
+		puts ". . . #{name} saved."
 	end
 end

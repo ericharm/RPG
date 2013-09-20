@@ -3,71 +3,20 @@ class Character
 	attr_accessor :name, :player_class, :gold, :level, :exp, :inventory,
 	:hp, :mp,	:attack, :defense, :acc, :maxhp, :maxmp
 
-	def self.load_character_from_file(type)
-		filepath = 'player.csv' if type == :player
-		filepath = 'monsters.csv' if type == :monster
-
-		attributes = []
-		args = {}
-
-		file = File.open(filepath, 'r')
-
-		file.each_line do |line|
-			attributes << line.chomp
-		end
-
-		args[:name] = attributes[0]
-		args[:player_class] = attributes[1]
-		args[:gold] = attributes[2].to_i
-		args[:level] = attributes[3].to_i
-		args[:exp] = attributes[4].to_i
-		#args[:inventory] = attributes[5]
-		args[:hp] = attributes[6].to_i
-		args[:mp] = attributes[7].to_i
-		args[:attack] = attributes[8].to_i
-		args[:defense] = attributes[9].to_i
-		args[:acc] = attributes[10].to_f
-
-		args[:inventory] = Inventory.new
-
-		if type == :player
-			args[:maxhp] = attributes[11].to_i
-			args[:maxmp] = attributes[12].to_i
-			player = Player.new(args)
-			Player.player_one = player
-		elsif type == :monster
-			args[:maxhp] = args[:hp].to_i
-			args[:maxmp] = args[:mp].to_i
-			monster = Monster.new(args)
-			@@monster = monster
-		end
-	end
-
 	def initialize(args = {})
 		@name = args[:name]
 		@player_class = args[:player_class]
-		@gold = args[:gold]
-		@level = args[:level]
-		@exp = args[:exp]
-	 @inventory = args[:inventory]
-	  @hp = args[:hp]
-	  @mp = args[:mp]
-		@attack = args[:attack]
-		@defense = args[:defense]
-		@acc = args[:acc]
-	  @maxhp = args[:maxhp]
-	  @maxmp = args[:maxmp]
-
-	#  @inventory = Inventory.new
-	end
-
-	def list_stats
-		puts "Name: #{@name}	Class: #{@player_class}"
-		puts "Exp: #{@exp}		Level: #{@level}"
-		puts "Gold: #{@gold}"
-		puts "HP: #{@hp} / #{@maxhp}	MP: #{@mp} / #{@maxmp}"
-		puts "Attack: #{@attack}	Defense: #{@defense}	Accuracy: #{@acc}"
-		puts "Inventory: #{@inventory.list_items}"
+		@gold = args[:gold].to_i
+		@level = args[:level].to_i
+		@exp = args[:exp].to_i
+	  @inventory = args[:inventory]
+	  @hp = args[:hp].to_i
+	  @mp = args[:mp].to_i
+		@attack = args[:attack].to_i
+		@defense = args[:defense].to_i
+		@acc = args[:acc].to_i
+	  @maxhp = args[:maxhp].to_i
+	  @maxmp = args[:maxmp].to_i
 	end
 
 	def is_dead?
@@ -77,5 +26,5 @@ class Character
 			return false
 		end
 	end
-	
+
 end

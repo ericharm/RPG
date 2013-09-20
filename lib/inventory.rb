@@ -2,13 +2,14 @@ class Inventory
 
 	attr_accessor :contents
 
-	@@choices = ["use","exit"]
+	@@choices = ["Use", "Equip", "Exit"]
 
 	def initialize
 		@contents = []
 	end
 
 	def inv_menu
+		puts "\n > > > INVENTORY"
 		puts list_items
 		Game.prompt(@@choices)
 		choice = gets.downcase.chomp
@@ -19,8 +20,10 @@ class Inventory
 		case choice
 			when 'use'
 				use
+			when 'equip'
+				equip
 			else
-				puts ""
+				puts "Ok."
 		end
 	end
 
@@ -29,19 +32,28 @@ class Inventory
 		choice = gets.downcase.chomp.capitalize
 		@contents.each do |item|
 			if item.name == choice
-				puts "#{item.name} used."
 				item.use(Player.player_one)
 				remove_item(item) if item.type == "Consumable"
+				break
 			end
 		end
 	end
 
+	def equip
+		Game.prompt "Equip what?"
+		#@contents.each do |item|
+		# print item.name if item.equipable
+		#end
+		choice = gets.downcase.chomp.capitalize
+		
+	end
+
 	def list_items
-		item_list = []
-		@contents.each do |item|
-			item_list << item.name
+		names_list = []
+		@contents.each do |name|
+			names_list << name.name
 		end
-		return item_list
+		names_list
 	end
 
 	def add_item(item)

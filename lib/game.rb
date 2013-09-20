@@ -4,7 +4,8 @@ require 'shop'
 
 class Game
 
-	@@actions = ['Fight', 'Shop', 'Inventory', 'Stats', 'Quit']
+	@@actions = ['Fight', 'Shop', 'Inventory', 'Stats', 'Save', 'Quit']
+	attr_accessor :player
 
 	def self.prompt(text="")
 		print "#{text} > "
@@ -23,16 +24,17 @@ class Game
 			Game.prompt "Continue saved character?"
 			response = gets.chomp.downcase[0]
 			if response == "y"
-				Player.load_character_from_file(:player)
+				Player.load_player_from_file
 			else
 				Player.generate_player
 			end
+			@player = Player.player_one
 			get_action
 		end
 	end
 
-
 	def get_action
+		puts "\n > > > R P G"
 		print actions
 		Game.prompt
 		result = gets.chomp.downcase.strip
@@ -50,6 +52,8 @@ class Game
 				inventory
 			when 'stats'
 				stats
+			when 'save'
+				save
 			when 'quit'
 				exit
 			else
@@ -66,12 +70,15 @@ class Game
 	end
 
 	def inventory
-
-		puts Player.player_one.inventory.inv_menu
+		puts @player.inventory.inv_menu
 	end
 
 	def stats
-		Player.player_one.list_stats
+		@player.list_stats
+	end
+
+	def save
+		@player.save
 	end
 
 end
