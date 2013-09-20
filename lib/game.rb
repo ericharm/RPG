@@ -11,6 +11,11 @@ class Game
 		print "#{text} > "
 	end
 
+	def self.game_over
+		puts " > > > GAME OVER"
+		exit
+	end
+
 	def actions
 		@@actions
 	end
@@ -38,7 +43,7 @@ class Game
 		print actions
 		Game.prompt
 		result = gets.chomp.downcase.strip
-		do_action(result)
+		do_action result
 		get_action unless result == 'quit'
 	end
 

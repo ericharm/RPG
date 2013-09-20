@@ -11,9 +11,9 @@ class Inventory
 	def inv_menu
 		puts "\n > > > INVENTORY"
 		puts list_items
-		Game.prompt(@@choices)
+		Game.prompt @@choices
 		choice = gets.downcase.chomp
-		do_action(choice)
+		do_action choice
 	end
 
 	def do_action(choice)
@@ -32,8 +32,8 @@ class Inventory
 		choice = gets.downcase.chomp.capitalize
 		@contents.each do |item|
 			if item.name == choice
-				item.use(Player.player_one)
-				remove_item(item) if item.type == "Consumable"
+				item.use Player.player_one
+				remove_item item if item.type == "Consumable"
 				break
 			end
 		end
@@ -61,6 +61,6 @@ class Inventory
 	end
 
 	def remove_item(item)
-		@contents.delete(item)
+		@contents.delete item
 	end
 end

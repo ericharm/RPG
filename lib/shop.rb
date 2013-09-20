@@ -11,8 +11,8 @@ class Shop
 	def initialize
 		@shop_inventory = []
 		@target = Player.player_one
-		potion = Item.load_item_from_file("Potion")
-		ether = Item.load_item_from_file("Ether")
+		potion = Item.load_item_from_file "Potion"
+		ether = Item.load_item_from_file "Ether"
 		@shop_inventory << potion
 		@shop_inventory << ether
 		shop_menu
@@ -21,7 +21,7 @@ class Shop
 	def shop_menu
 		puts "\n > > > SHOP"
 		puts "Welcome to the shop. How can I help you?"
-		Game.prompt(@@choices)
+		Game.prompt @@choices
 		choice = gets.downcase.chomp
 
 		case choice
@@ -45,7 +45,7 @@ class Shop
 		Game.prompt("What do you want to buy?")
 		choice = gets.chomp.downcase.capitalize
 
-		if item_names.include?(choice)
+		if item_names.include? choice
 			item = Item.load_item_from_file(choice)
 			if target.gold > item.price.to_i
 				target.inventory.add_item(item)

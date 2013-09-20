@@ -10,8 +10,8 @@ class Player < Character
 		name = gets.chomp.capitalize
 		puts "Hello, #{name}."
 		puts "What class of adventurer are you?"
-		Game.prompt(@@player_classes)
-		player_class = gets.chomp.capitalize until @@player_classes.include?(player_class)
+		Game.prompt @@player_classes
+		player_class = gets.chomp.capitalize until @@player_classes.include? player_class
 		puts "So, you're a #{player_class}"
 		args = generate_stats(name, player_class)
 		player = Player.new(args)
@@ -47,32 +47,32 @@ class Player < Character
 
 	def self.load_player_from_file
 
-		attributes = []
+		a = []
 		args = {}
 
 		file = File.open('player.csv', 'r')
 
 		file.each_line do |line|
-			attributes << line.chomp
+			a << line.chomp
 		end
 
-		args[:name] = attributes[0]
-		args[:player_class] = attributes[1]
-		args[:gold] = attributes[2].to_i
-		args[:level] = attributes[3].to_i
-		args[:exp] = attributes[4].to_i
-		args[:inventory] = attributes[5]
-		args[:hp] = attributes[6].to_i
-		args[:mp] = attributes[7].to_i
-		args[:attack] = attributes[8].to_i
-		args[:defense] = attributes[9].to_i
-		args[:acc] = attributes[10].to_f
+		args[:name] = a[0]
+		args[:player_class] = a[1]
+		args[:gold] = a[2].to_i
+		args[:level] = a[3].to_i
+		args[:exp] = a[4].to_i
+		args[:inventory] = a[5]
+		args[:hp] = a[6].to_i
+		args[:mp] = a[7].to_i
+		args[:attack] = a[8].to_i
+		args[:defense] = a[9].to_i
+		args[:acc] = a[10].to_f
 		args[:inventory] = Inventory.new
-		args[:maxhp] = attributes[11].to_i
-		args[:maxmp] = attributes[12].to_i
+		args[:maxhp] = a[11].to_i
+		args[:maxmp] = a[12].to_i
 
 		player = Player.new(args)
-		load_inventory(player)
+		load_inventory player
 		Player.player_one = player
 	end
 
