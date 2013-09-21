@@ -64,9 +64,7 @@ class Shop
 		puts "You have: > > > "
 		item_names = []
 
-		target.inventory.contents.each do |item|
-			print "#{item.name}: #{item.price.to_i/2} Gold   /   "
-		end
+		target.inventory.contents.each { |item| print "#{item.name}: #{item.price.to_i/2} Gold   /   " }
 		#{target.inventory.list_items}"
 		Game.prompt("What do you want to sell?")
 		choice = gets.chomp.downcase.capitalize

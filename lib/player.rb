@@ -103,7 +103,7 @@ class Player < Character
 	def list_stats
 		puts "\n > > > #{@name.upcase}"
 		puts "Class: #{@player_class}"
-		puts "Exp: #{@exp}		Level: #{@level}"
+		puts "Exp: #{@exp} / #{@exp_next}		Level: #{@level}"
 		puts "Gold: #{@gold}"
 		puts "HP: #{@hp} / #{@maxhp}	MP: #{@mp} / #{@maxmp}"
 		puts "Attack: #{@attack}	Defense: #{@defense}	Accuracy: #{@acc}"

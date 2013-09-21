@@ -73,34 +73,33 @@ class Battle
 		@player.gold += @monster.gold
 		@player.exp += @monster.exp
 		puts "#{@player.name} receives #{@monster.gold} Gold and #{@monster.exp} Exp."
-		compare_exp_to_level_table
+		get_level
 	end
 
-	def compare_exp_to_level_table
-		file = File.open 'levels.txt'
-			l = file.gets.split(",")
-			level = []
-			l.each do |level_up_point|
-				level << level_up_point.to_i
+	def get_level
+		level_data = []
+		file = File.open('levels.csv','r')
+		file.each_line do |line|
+			level_data_as_strings = line.split(", ")
+			if level_data_as_strings[0].to_i == @player.level
+				level_data_as_strings.each { |value| level_data << value.chomp.to_i }
 			end
-			exp = @player.exp
-
-			if greater_than_less_than(exp,level[1],level[2])
-				@player.level = 2
-			elsif  greater_than_less_than(exp, level[2], level[3])
-				@player.level = 3
-			else
-				@player.level = 4
-				
-			end
-
-		file.close
-	end
-
-	def greater_than_less_than(num, lower, upper)
-		if num > lower && num < upper
-			true
 		end
+		file.close
+		level_up(level_data) if @player.exp >= level_data[1]
+	end
+
+	def level_up(data)
+			puts "#{@player.name} has leveled up!"
+			@player.level += 1
+			@player.exp_next = data[7]
+			@player.maxhp += data[2]
+			@player.maxmp += data[3]
+			@player.hp = @player.maxhp
+			@player.mp = @player.maxmp
+			@player.attack += data[4]
+			@player.defense += data[5]
+			@player.acc += data[6]
 	end
 
 end

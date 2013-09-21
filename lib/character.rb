@@ -1,7 +1,7 @@
 class Character
 
 	attr_accessor :name, :player_class, :gold, :level, :exp, :inventory,
-	:hp, :mp,	:attack, :defense, :acc, :maxhp, :maxmp
+	:hp, :mp,	:attack, :defense, :acc, :maxhp, :maxmp, :exp_next
 
 	def initialize(args = {})
 		@name = args[:name]
@@ -17,6 +17,7 @@ class Character
 		@acc = args[:acc].to_i
 	  @maxhp = args[:maxhp].to_i
 	  @maxmp = args[:maxmp].to_i
+	  @exp_next = 8
 	end
 
 	def is_dead?
