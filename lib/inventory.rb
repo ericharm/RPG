@@ -45,7 +45,6 @@ class Inventory
 		# print item.name if item.equipable
 		#end
 		choice = gets.downcase.chomp.capitalize
-		
 	end
 
 	def list_items

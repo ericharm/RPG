@@ -51,10 +51,7 @@ class Player < Character
 		args = {}
 
 		file = File.open('player.csv', 'r')
-
-		file.each_line do |line|
-			a << line.chomp
-		end
+		file.each_line { |line|	a << line.chomp }
 
 		args[:name] = a[0]
 		args[:player_class] = a[1]
