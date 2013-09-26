@@ -23,22 +23,13 @@ class Player < Character
 		args = {}
 		file = File.open('starting_stats.csv','r')
 		file.each_line do |line|
-			player_stats = line.split(", ")
-			if player_stats[0] == player_class
-				args[:name] = name
-				args[:player_class] = player_class
-				args[:gold] = player_stats[1].to_i
-				args[:level] = player_stats[2].to_i
-				args[:exp] = player_stats[3].to_i
-				args[:inventory] = player_stats[4]
-				args[:hp] = player_stats[5].to_i
-				args[:mp] = player_stats[6].to_i
-				args[:attack] = player_stats[7].to_i
-				args[:defense] = player_stats[8].to_i
-				args[:acc] = player_stats[9].to_f
-				args[:maxhp] = args[:hp]
-				args[:maxmp] = args[:mp]
-				args[:inventory] = Inventory.new
+			stats = line.split(", ")
+			if stats[0] == player_class
+				args = { name: name, player_class: player_class, gold: stats[1].to_i, 
+				level: stats[2].to_i, exp: stats[3].to_i, inventory: stats[4], 
+				hp: stats[5].to_i, mp: stats[6].to_i, attack: stats[7].to_i, 
+				defense: stats[8].to_i, acc: stats[9].to_i, maxhp: stats[5].to_i, 
+				maxmp: stats[6].to_i, inventory: Inventory.new, exp_next: 40 }
 			end
 		end
 		file.close
@@ -46,33 +37,21 @@ class Player < Character
 	end
 
 	def self.load_player_from_file
-
 		a = []
-		args = {}
-
 		file = File.open('player.csv', 'r')
 		file.each_line { |line|	a << line.chomp }
 
-		args[:name] = a[0]
-		args[:player_class] = a[1]
-		args[:gold] = a[2].to_i
-		args[:level] = a[3].to_i
-		args[:exp] = a[4].to_i
-		args[:inventory] = a[5]
-		args[:hp] = a[6].to_i
-		args[:mp] = a[7].to_i
-		args[:attack] = a[8].to_i
-		args[:defense] = a[9].to_i
-		args[:acc] = a[10].to_f
-		args[:inventory] = Inventory.new
-		args[:maxhp] = a[11].to_i
-		args[:maxmp] = a[12].to_i
+		args = { name: a[0], player_class: a[1], gold: a[2].to_i, level: a[3].to_i, 
+			exp: a[4].to_i, inventory: Inventory.new, hp: a[6].to_i, mp: a[7].to_i, attack: a[8].to_i,
+			defense: a[9].to_i,	acc: a[10].to_i, maxhp: a[11].to_i, maxmp: a[12].to_i,
+			exp_next: a[13].to_i }
 
 		player = Player.new(args)
-		load_inventory player
+		load_inventory(player)
 		Player.player_one = player
 	end
 
+	# move to inventory?
 	def self.load_inventory(target)
 		attributes = []
 		file = File.open('player.csv', 'r')
@@ -80,7 +59,7 @@ class Player < Character
 			attributes << line.chomp
 		end
 		
-		clean_items_string = attributes[13].tr('"[]',"")
+		clean_items_string = attributes[14].tr('"[]',"")
 		items_to_create = clean_items_string.split(", ")
 
 		items_to_create.each do |item_name|

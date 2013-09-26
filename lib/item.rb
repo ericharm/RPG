@@ -9,14 +9,9 @@ class Item
 			file.each_line do |line|
 				attributes = line.split(", ")
 				if attributes[0] == name
-					args[:name]	= attributes[0]
-					args[:type] = attributes[1]
-					args[:stat] = attributes[2]
-					args[:effect]	= attributes[3]
-					args[:price] = attributes[3]
-					args[:equipped] = attributes[4]
-					args[:equipable] = attributes[5]
-					args[:usable] = attributes[6]
+					args = { name: attributes[0], type: attributes[1], stat: attributes [2],
+						price: attributes[3], effect: attributes[4], equipped: attributes[5],
+						equipable: attributes[6], usable: attributes[7]}
 				end
 			end
 		file.close

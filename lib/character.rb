@@ -17,7 +17,7 @@ class Character
 		@acc = args[:acc].to_i
 	  @maxhp = args[:maxhp].to_i
 	  @maxmp = args[:maxmp].to_i
-	  @exp_next = 8 #
+	  @exp_next = args[:exp_next].to_i
 	end
 
 	def is_dead?

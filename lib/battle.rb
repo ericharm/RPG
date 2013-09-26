@@ -7,7 +7,7 @@ class Battle
 
 	def initialize
 		@player = Player.player_one
-		@bestiary = ["Bat", "Skeleton"]
+		@bestiary = [ "Bat", "Skeleton", "Wolf", "Spider", "Bandit" ]
 		random_monster =	rand @bestiary.length
 		@monster = Monster.load_monster @bestiary[random_monster]
 		fight
@@ -50,7 +50,9 @@ class Battle
 	end
 
 	def hit(attacker, attacked)
-		hit_strength = (attacker.attack - attacked.defense) + attacker.attack
+		hit_bonus = rand(100..200).to_f/100
+		hit_strength = (attacker.attack * hit_bonus - attacked.defense).to_i
+		# if attacked.defense > hit_strength
 		hit_strength = attacked.hp if hit_strength > attacked.hp
 		hit_strength = 0 if determine_miss attacker
 		attacked.hp -= hit_strength
@@ -60,7 +62,7 @@ class Battle
 	end
 
 	def determine_miss(attacker)
-		roll = rand attacker.acc
+		roll = rand(attacker.acc)
 		if roll < 100-attacker.acc
 			puts "MISS!"
 			return true
@@ -91,15 +93,16 @@ class Battle
 
 	def level_up(data)
 			puts "#{@player.name} has leveled up!"
+			stat_mod = data[2]
 			@player.level += 1
-			@player.exp_next = data[7]
-			@player.maxhp += data[2]
-			@player.maxmp += data[3]
+			@player.exp_next = data[3]
+			@player.maxhp += rand(stat_mod)
+			@player.maxmp += rand(stat_mod)
 			@player.hp = @player.maxhp
 			@player.mp = @player.maxmp
-			@player.attack += data[4]
-			@player.defense += data[5]
-			@player.acc += data[6]
+			@player.attack += rand(stat_mod)
+			@player.defense += rand(stat_mod)
+			@player.acc += 1
 	end
 
 end
