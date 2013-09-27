@@ -13,8 +13,10 @@ class Shop
 		@target = Player.player_one
 		potion = Item.load_item_from_file "Potion"
 		ether = Item.load_item_from_file "Ether"
+		sword = Item.load_item_from_file "Sword"
 		@shop_inventory << potion
 		@shop_inventory << ether
+		@shop_inventory << sword
 		shop_menu
 	end
 

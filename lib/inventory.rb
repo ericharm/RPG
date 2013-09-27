@@ -2,7 +2,7 @@ class Inventory
 
 	attr_accessor :contents
 
-	@@choices = ["Use", "Equip", "Exit"]
+	@@choices = ["Use", "Equip", "Unequip", "Equipped", "Exit"]
 
 	def initialize
 		@contents = []
@@ -22,8 +22,12 @@ class Inventory
 				use
 			when 'equip'
 				equip
+			when 'unequip'
+				unequip
+			when 'equipped'
+				equipped
 			else
-				puts "Ok."
+				puts "I don't understand."
 		end
 	end
 
@@ -32,7 +36,7 @@ class Inventory
 		choice = gets.downcase.chomp.capitalize
 		@contents.each do |item|
 			if item.name == choice
-				item.use Player.player_one
+				item.use( Player.player_one ) if item.is_usable?
 				remove_item item if item.type == "Consumable"
 				break
 			end
@@ -40,12 +44,39 @@ class Inventory
 	end
 
 	def equip
-		Game.prompt "Equip what?"
-		#@contents.each do |item|
-		# print item.name if item.equipable
-		#end
+		equip_list = []
+		equipable_item_names = []
+		@contents.each do |item|
+			if item.equipable
+				equip_list << item
+				equipable_item_names << item.name
+			end
+		end
+
+		Game.prompt "#{equipable_item_names}\nEquip what?"
 		choice = gets.downcase.chomp.capitalize
+
+		if equipable_item_names.include?( choice )
+			@contents.each { |item| item.equip(Player.player_one) if item.name == choice }
+		else
+			puts "You don't have that."
+		end
 	end
+
+	def unequip
+		equip_list = []
+		@contents.each { |item| item.unequip(Player.player_one) if item.equipped }
+	end
+
+	def equipped
+		@contents.each { |item|	print "#{item.name} " if item.is_equipped? }
+	end
+
+  def a_weapon_already_equipped?
+  	equipped_items = []
+    @contents.each { |item| equipped_items << item if item.type == "Weapon" && item.is_equipped? }
+    true unless equipped_items.empty?
+  end
 
 	def list_items
 		names_list = []

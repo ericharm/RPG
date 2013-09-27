@@ -39,6 +39,28 @@ class Item
 		puts "#{target.name}'s #{@stat.to_s} changed by #{@effect}."
 	end
 
+	def equip(target)
+		Player.player_one.inventory.contents.each { |item| item.unequip(target) if item.equipped }
+		#first unequip all items
+		case stat
+		when "attack"
+			target.attack+=@effect.to_i
+		end
+		puts "Equipped #{@name}"
+		puts "#{target.name}'s #{@stat.to_s} changed by #{@effect}."
+		equipped = true
+	end
+
+	def unequip(target)
+		case stat
+		when 'attack'
+			target.attack-=@effect.to_i
+		end
+		puts "Removed #{name}."
+		puts "#{target.name}'s #{@stat.to_s} changed by #{@effect}."
+		equipped = false
+	end
+
 	def is_equipped?
 		return equipped
 	end

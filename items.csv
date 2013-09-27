@@ -1,3 +1,4 @@
 Name, Type, Stat, Price, Effect, Equipped, Equipable, Usable
 Potion, Consumable, hp, 10, 20, false, false, true
 Ether, Consumable, mp, 10, 10, false, false, true
+Sword, Weapon, attack, 0, 2, false, true, false
