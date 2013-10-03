@@ -9,6 +9,12 @@ improving your character and collecting useful items to
 continue battling until you can find the dreaded Final Boss
 and strike him down. 
 
+Known Bugs=
+-----------
+
+Negative Damage- Some hits are so weak they heal the target.
+
+Nil items- Upon load your character may get a nil item.
 
 Future Features=
 ----------------
