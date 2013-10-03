@@ -33,7 +33,7 @@ class Battle
     else
       victory
     end
-    @player.save
+    # @player.save
   end
 
   def determine_first_strike
@@ -52,9 +52,8 @@ class Battle
   def hit(attacker, attacked)
     hit_bonus = rand(100..200).to_f/100
     hit_strength = (attacker.attack * hit_bonus - attacked.defense).to_i
-    # if attacked.defense > hit_strength
     hit_strength = attacked.hp if hit_strength > attacked.hp
-    hit_strength = 0 if determine_miss attacker
+    hit_strength = 0 if determine_miss attacker || hit_strength < 0
     attacked.hp -= hit_strength
     puts "#{attacker.name} hits #{attacked.name} for #{hit_strength} hit points."
     print "#{attacker.name} HP: #{attacker.hp} / #{attacker.maxhp} . . ."

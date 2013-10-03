@@ -8,7 +8,7 @@ class Game
   attr_accessor :player
 
   def self.prompt(text="")
-    print "#{text} > "
+    print "\n#{text} > "
   end
 
   def self.game_over

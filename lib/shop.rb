@@ -4,24 +4,27 @@ require 'inventory'
 
 class Shop
 
-  @@choices = ['Buy', 'Sell']
+  @@choices = ['Buy', 'Sell', 'Exit']
 
   attr_accessor :shop_inventory, :target
 
+  def list_items
+    items = []
+    @shop_inventory.each { |item| items << item.name }
+    items
+  end
+
   def initialize
-    @shop_inventory = []
     @target = Player.player_one
-    potion = Item.load_item_from_file "Potion"
-    ether = Item.load_item_from_file "Ether"
-    sword = Item.load_item_from_file "Sword"
-    @shop_inventory << potion
-    @shop_inventory << ether
-    @shop_inventory << sword
+
+    @shop_inventory = [ Item.load_item_from_file("Potion"), Item.load_item_from_file("Ether"),
+                      Item.load_item_from_file("Sword"), Item.load_item_from_file("Leather") ]
     shop_menu
   end
 
   def shop_menu
     puts "\n > > > SHOP"
+    puts "\n #{list_items}"
     puts "Welcome to the shop. How can I help you?"
     Game.prompt @@choices
     choice = gets.downcase.chomp
@@ -31,54 +34,50 @@ class Shop
         buy
       when 'sell'
         sell
+      when 'exit'
+        puts 'Goodbye.'
       else
-        "I don't understand."
+        p "I don't understand."
     end
+
+    shop_menu unless choice == 'exit'
   end
 
   def buy
-    print "I have: > > > "
-    item_names = []
-    @shop_inventory.each do |item|
-      print "#{item.name}: #{item.price} Gold      "
-      item_names << item.name
-    end
-    puts ""
-    Game.prompt("What do you want to buy?")
-    choice = gets.chomp.downcase.capitalize
+    print "I have: > > >  "
+    p @shop_inventory.map { |item| "#{item.name}: #{item.price} G"}
+    Game.prompt("(#{target.gold} G)  What do you want to buy?")
+    choice = gets.downcase.chomp.capitalize
+    item_to_buy = @shop_inventory.find { |item| item.name == choice }
 
-    if item_names.include? choice
-      item = Item.load_item_from_file(choice)
-      if target.gold > item.price.to_i
-        target.inventory.add_item(item)
-        target.gold -= item.price.to_i
-        puts "You bought #{item.name} for #{item.price} Gold."
+    unless item_to_buy.nil?
+      if target.gold > item_to_buy.price.to_i
+        target.inventory.add_item(item_to_buy)
+        target.gold -= item_to_buy.price.to_i
+        puts "You bought #{item_to_buy.name} for #{item_to_buy.price} Gold."
       else
         puts "You can't afford that."
       end
-    else
-      puts "I don't have that."
     end
-    # Player.player_one.inventory.add_item(item)
+
+    puts "I don't have one of those." if item_to_buy.nil?
+
   end
 
   def sell
-    puts "You have: > > > "
-    item_names = []
-
-    target.inventory.contents.each { |item| print "#{item.name}: #{item.price.to_i/2} Gold   /   " }
-    #{target.inventory.list_items}"
+    print "You have: > > > "
+    p target.inventory.contents.map { |item| print "#{item.name}: #{item.price.to_i/2} Gold   " }
     Game.prompt("What do you want to sell?")
     choice = gets.chomp.downcase.capitalize
 
     if target.inventory.list_items.include?(choice)
-      target.inventory.contents.each do |item|
-        if item.name == choice
-          target.gold += item.price.to_i/2
-          puts "You sold #{item.name} for #{item.price.to_i/2} Gold."
-          target.inventory.remove_item(item)
-          break
-        end
+      sold_item = target.inventory.contents.find { |item| item.name == choice }
+      if sold_item.equipped?
+        puts "You can not sell an equipped item."
+      else
+        target.gold += sold_item.price.to_i/2
+        puts "You sold #{sold_item.name} for #{sold_item.price.to_i/2} Gold."
+        target.inventory.remove_item(sold_item)
       end
     else
       puts "You don't have one of those."

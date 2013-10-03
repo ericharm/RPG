@@ -11,13 +11,10 @@ class Inventory
 
   def inv_menu
     puts "\n > > > INVENTORY"
-    puts list_items
+    p list_items
     Game.prompt @@choices
     choice = gets.downcase.chomp
-    do_action choice
-  end
 
-  def do_action(choice)
     case choice
       when 'use'
         use
@@ -27,9 +24,13 @@ class Inventory
         unequip
       when 'equipped'
         equipped
+      when 'exit'
+        #Game.get_action
       else
         puts "I don't understand."
     end
+
+    inv_menu unless choice == 'exit'
   end
 
   def use
@@ -41,26 +42,43 @@ class Inventory
   end
 
   def equip
-    weapons = @contents.find_all { |item| item.type == "Weapon" }
-    weapons.each { |weapon| puts weapon.name }
+    items = @contents.find_all { |item| item.type == 'Weapon' || item.type == 'Armor' }
+    items.each { |item| p item.name }
     Game.prompt "Equip what?"
     choice = gets.downcase.chomp.capitalize
-    weapon_to_equip = weapons.find { |item| item.name == choice }
-    weapon_to_equip.equip( Player.player_one )
+    item_to_equip = items.find { |item| item.name == choice }
+
+    case item_to_equip.type
+    when 'Weapon'
+      if Player.player_one.equipped_weapon.nil?
+        item_to_equip.equip( Player.player_one )
+      else
+        puts "You've already got a weapon equipped."
+      end
+    when 'Armor'
+      if Player.player_one.equipped_armor.nil?
+        item_to_equip.equip( Player.player_one )
+      else
+        puts "You've already got armor equipped."
+      end
+    else
+      puts "You can't equip that type of thing."
+    end
+
   end
 
   def unequip
-    target = Player.player_one
-    unless target.equipped_weapon.nil?
-      puts "Removing #{target.equipped_weapon.name}."
-      target.attack -= target.equipped_weapon.effect
-      target.equipped_weapon.equipped = false
-      target.equipped_weapon = nil 
+    items_to_remove = @contents.find_all { |item| item.equipped == true }
+    if items_to_remove.empty?
+      puts "You have nothing equipped."
+    else
+      items_to_remove.each  { |item| item.unequip(Player.player_one) }
     end
   end
 
   def equipped
-    @contents.each { |item| print "#{item.name} " if item.equipped }
+    equipped = @contents.find_all { |item| item.equipped == true }
+    equipped.map { |item| p "#{item.type}: #{item.name}, + #{item.effect} #{item.stat}" }
   end
 
   def list_items

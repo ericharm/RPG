@@ -82,7 +82,9 @@ class Player < Character
     puts "Exp: #{@exp} / #{@exp_next}   Level: #{@level}"
     puts "Gold: #{@gold}"
     puts "HP: #{@hp} / #{@maxhp}  MP: #{@mp} / #{@maxmp}"
-    puts "Attack: #{@attack}  Defense: #{@defense}  Accuracy: #{@acc}"
+    puts "Attack: #{@attack}"
+    puts "Defense: #{@defense}"
+    puts "Accuracy: #{@acc}"
     puts "Inventory: #{@inventory.list_items}"
   end
 
@@ -90,7 +92,7 @@ class Player < Character
     file = File.open('player.csv', 'w')
 
     Hash[instance_variables.map { |name| [name, instance_variable_get(name)] } ]. each do |key,value|
-        file.puts value
+        file.puts value unless value.nil?
     end
 
     file.print @inventory.list_items # unless @inventory.list_items == []

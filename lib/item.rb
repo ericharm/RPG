@@ -40,16 +40,41 @@ class Item
   end
 
   def equip(target)
-    while target.equipped_weapon.nil?
+    case type
+    when 'Weapon'
       target.equipped_weapon = self
-      self.equipped = true
+      target.attack += target.equipped_weapon.effect
       puts "Equipped #{target.equipped_weapon.name}: + #{target.equipped_weapon.effect} #{target.equipped_weapon.stat}"
-      target.attack += effect
+    when 'Armor'
+      target.equipped_armor = self
+      target.defense += target.equipped_armor.effect
+      puts "Equipped #{target.equipped_armor.name}: + #{target.equipped_armor.effect} #{target.equipped_armor.stat}"
+    else
+      puts "That can't be equipped."
     end
+
+    self.equipped = true
   end
 
   def unequip(target)
-    
+    case type
+    when 'Weapon'
+      target.attack -= target.equipped_weapon.effect
+      puts "Removed  #{target.equipped_weapon.name}: - #{target.equipped_weapon.effect} #{target.equipped_weapon.stat}"
+      target.equipped_weapon = nil
+    when 'Armor'
+      target.defense -= target.equipped_armor.effect
+      puts "Removed  #{target.equipped_armor.name}: - #{target.equipped_armor.effect} #{target.equipped_armor.stat}"
+      target.equipped_armor = nil
+    else
+      puts "That can't be unequipped."
+    end
+
+    self.equipped = false
+  end
+
+  def equipped?
+    @equipped
   end
 
 end
