@@ -11,7 +11,7 @@ class Inventory
 
   def inv_menu
     puts "\n > > > INVENTORY"
-    p list_items
+    puts list_items
     Game.prompt @@choices
     choice = gets.downcase.chomp
 
@@ -43,28 +43,15 @@ class Inventory
 
   def equip
     items = @contents.find_all { |item| item.type == 'Weapon' || item.type == 'Armor' }
-    items.each { |item| p item.name }
+    p items.map { |item| item.name }
     Game.prompt "Equip what?"
     choice = gets.downcase.chomp.capitalize
     item_to_equip = items.find { |item| item.name == choice }
-
-    case item_to_equip.type
-    when 'Weapon'
-      if Player.player_one.equipped_weapon.nil?
-        item_to_equip.equip( Player.player_one )
-      else
-        puts "You've already got a weapon equipped."
-      end
-    when 'Armor'
-      if Player.player_one.equipped_armor.nil?
-        item_to_equip.equip( Player.player_one )
-      else
-        puts "You've already got armor equipped."
-      end
+    if item_to_equip.nil?
+      p "You can't equip that."
     else
-      puts "You can't equip that type of thing."
+      item_to_equip.equip(Player.player_one)
     end
-
   end
 
   def unequip
@@ -72,7 +59,7 @@ class Inventory
     if items_to_remove.empty?
       puts "You have nothing equipped."
     else
-      items_to_remove.each  { |item| item.unequip(Player.player_one) }
+      items_to_remove.each  { |item| item.unequip( Player.player_one ) }
     end
   end
 
@@ -84,7 +71,13 @@ class Inventory
   def list_items
     items = []
     @contents.each { |item| items << item.name }
-    items
+    items.to_s + "\n"
+  end
+
+  def list_equipped_items
+    equipped_items = @contents.find_all { |item| item.equipped == true }
+    equipped_item_names = equipped_items.map { |item| item.name }
+    equipped_item_names.to_s + "\n"
   end
 
   def add_item(item)

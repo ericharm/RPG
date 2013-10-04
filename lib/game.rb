@@ -4,7 +4,7 @@ require 'shop'
 
 class Game
 
-  @@actions = ['Fight', 'Shop', 'Inventory', 'Stats', 'Save', 'Quit']
+  @@actions = ['Fight', 'Shop', 'Inventory', 'Stats', 'Save', 'Quit'] #  'Use', 'Equip', 'Unequip', 'Equipped',
   attr_accessor :player
 
   def self.prompt(text="")
@@ -59,6 +59,14 @@ class Game
         stats
       when 'save'
         save
+      when 'use'
+        use
+      when 'equip'
+        equip
+      when 'unequip'
+        unequip
+      when 'equipped'
+        equipped
       when 'quit'
         exit
       else
@@ -82,8 +90,23 @@ class Game
     @player.list_stats
   end
 
+  def use
+    @player.inventory.use
+  end
+
+  def equip
+    @player.inventory.equip
+  end
+
+  def unequip
+    @player.inventory.unequip
+  end
+
+  def equipped
+    @player.inventory.equipped
+  end
+
   def save
     @player.save
   end
-
 end

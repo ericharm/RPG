@@ -42,17 +42,26 @@ class Item
   def equip(target)
     case type
     when 'Weapon'
-      target.equipped_weapon = self
-      target.attack += target.equipped_weapon.effect
-      puts "Equipped #{target.equipped_weapon.name}: + #{target.equipped_weapon.effect} #{target.equipped_weapon.stat}"
+      if Player.player_one.equipped_weapon.nil?
+        target.equipped_weapon = self
+        target.attack += target.equipped_weapon.effect
+        puts "Equipped #{target.equipped_weapon.name}: + #{target.equipped_weapon.effect} " +
+             "#{target.equipped_weapon.stat}"
+      else
+        puts "You've already got a weapon equipped."
+      end
     when 'Armor'
-      target.equipped_armor = self
-      target.defense += target.equipped_armor.effect
-      puts "Equipped #{target.equipped_armor.name}: + #{target.equipped_armor.effect} #{target.equipped_armor.stat}"
+      if Player.player_one.equipped_armor.nil?
+        target.equipped_armor = self
+        target.defense += target.equipped_armor.effect
+        puts "Equipped #{target.equipped_armor.name}: + #{target.equipped_armor.effect} " + 
+             "#{target.equipped_armor.stat}"
+      else
+        puts "You've already got armor equipped."
+      end
     else
-      puts "That can't be equipped."
+      puts "You can't equip that type of thing."
     end
-
     self.equipped = true
   end
 

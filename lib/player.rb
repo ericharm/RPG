@@ -55,16 +55,30 @@ class Player < Character
   def self.load_inventory(target)
     attributes = []
     file = File.open('player.csv', 'r')
-    file.each_line do |line|
-      attributes << line.chomp
-    end
-    
-    clean_items_string = attributes[14].tr('"[]',"")
+    file.each_line { |line| attributes << line.chomp }  
+
+    clean_items_string = attributes[5].tr('"[]',"")
     items_to_create = clean_items_string.split(", ")
+
+    equipped_items_string = attributes[14].tr('"[]',"")
+    items_to_equip = equipped_items_string.split(", ")
 
     items_to_create.each do |item_name|
       item = Item.load_item_from_file(item_name)
       target.inventory.contents << item
+    end
+
+    items_to_equip.each do |item_name|
+      item = Item.load_item_from_file(item_name)
+      if item.type == 'Weapon'
+        item.equipped = true
+        target.equipped_weapon = item
+      elsif item.type == 'Armor'
+        item.equipped = true
+        target.equipped_armor = item
+      else
+        puts "Nothing happened."
+      end
     end
   end
 
@@ -90,12 +104,21 @@ class Player < Character
 
   def save
     file = File.open('player.csv', 'w')
-
-    Hash[instance_variables.map { |name| [name, instance_variable_get(name)] } ]. each do |key,value|
-        file.puts value unless value.nil?
-    end
-
-    file.print @inventory.list_items # unless @inventory.list_items == []
+    file.puts @name
+    file.puts @player_class
+    file.puts @gold
+    file.puts @level
+    file.puts @exp
+    file.print @inventory.list_items
+    file.puts @hp
+    file.puts @mp
+    file.puts @attack
+    file.puts @defense
+    file.puts @acc
+    file.puts @maxhp
+    file.puts @maxmp
+    file.puts @exp_next
+    file.puts @inventory.list_equipped_items
     file.close
     puts ". . . #{name} saved."
   end
