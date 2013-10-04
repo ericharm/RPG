@@ -1,37 +1,31 @@
 RPG
 
 
-The Game=
----------
+The Game
+--------
 
 Choose a class and fight monsters to gain Gold and Experience,
 improving your character and collecting useful items to
 continue battling until you can find the dreaded Final Boss
 and strike him down. 
 
-Known Bugs=
------------
+Known bugs
+----------
 
-Negative Damage- Some hits are so weak they heal the target.
+Nil Items
+Negative Damage
 
-Nil items- Upon load your character may get a nil item.
 
-Future Features=
-----------------
+Future Features
+---------------
 
-Weapons and Armor- Players will be able to equip items to improve
-their stats.
-
-Battle system- A more sophisticated damage calculation formula
-will replace the current one.
+Battle scaling- Enemies will be chosen based on player level
+with some variation.
 
 Item drops- Monsters will randomly drop items.
 
 Class differentiation- In battles, Mages will cast spells, Rogues
 will dodge, Warriors will block, characters will crit based on stats.
-
-Battle scaling- Enemies will be chosen based on player level
-with some variation.
 
 Bonus items- Upon leveling, player will receive a bonus item.
 

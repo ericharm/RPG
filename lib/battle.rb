@@ -1,15 +1,18 @@
 require 'monster'
 require 'player'
+require 'monster_selector'
 
 class Battle
 
-  attr_accessor :player, :monster, :bestiary, :first_striker, :second_striker
+  include MonsterSelector
+
+  attr_accessor :player, :monster, :bestiary, :first_striker, :second_striker, :levelcap
 
   def initialize
     @player = Player.player_one
-    @bestiary = [ "Bat", "Skeleton", "Wolf", "Spider", "Bandit" ]
-    random_monster =  rand @bestiary.length
-    @monster = Monster.load_monster @bestiary[random_monster]
+    @levelcap = 5
+    @bestiary = [ "Bat", "Skeleton", "Wolf", "Spider", "Bandit", "Pundit", "Wutzit" ]
+    select_monster
     fight
   end
 
@@ -33,7 +36,7 @@ class Battle
     else
       victory
     end
-    # @player.save
+
   end
 
   def determine_first_strike

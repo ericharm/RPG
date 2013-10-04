@@ -56,13 +56,10 @@ class Player < Character
     attributes = []
     file = File.open('player.csv', 'r')
     file.each_line { |line| attributes << line.chomp }  
-
     clean_items_string = attributes[5].tr('"[]',"")
     items_to_create = clean_items_string.split(", ")
-
     equipped_items_string = attributes[14].tr('"[]',"")
     items_to_equip = equipped_items_string.split(", ")
-
     items_to_create.each do |item_name|
       item = Item.load_item_from_file(item_name)
       target.inventory.contents << item
@@ -81,6 +78,7 @@ class Player < Character
         puts "Nothing happened."
       end
     end
+    
   end
 
   def self.player_one

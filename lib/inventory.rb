@@ -66,6 +66,7 @@ class Inventory
   def equipped
     equipped = @contents.find_all { |item| item.equipped == true }
     equipped.map { |item| p "#{item.type}: #{item.name}, + #{item.effect} #{item.stat}" }
+    puts "Nothing equipped." if equipped.empty?
   end
 
   def list_items

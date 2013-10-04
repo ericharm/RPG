@@ -4,3 +4,5 @@ Skeleton, Monster, 18, 1, 18, nil, 16, 0, 8, 6, 78
 Wolf, Monster, 6, 1, 24, nil, 20, 0, 8, 0, 70
 Spider, Monster, 22, 2, 90, nil, 72, 0, 14, 0, 74
 Bandit, Guy, 50, 3, 150, nil, 92, 0, 18, 12, 66
+Pundit, Guy, 50, 4, 150, nil, 92, 0, 18, 12, 66
+Wutzit, Guy, 50, 5, 150, nil, 92, 0, 18, 12, 66
