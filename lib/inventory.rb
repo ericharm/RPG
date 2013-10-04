@@ -80,6 +80,12 @@ class Inventory
     equipped_item_names.to_s + "\n"
   end
 
+  def list_unequipped_items
+    unequipped_items = @contents.find_all { |item| item.equipped? == false }
+    unequipped_item_names = unequipped_items.map { |item| item.name }
+    unequipped_item_names.to_s + "\n"
+  end
+
   def add_item(item)
     @contents << item
   end

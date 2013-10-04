@@ -70,6 +70,7 @@ class Player < Character
 
     items_to_equip.each do |item_name|
       item = Item.load_item_from_file(item_name)
+      target.inventory.contents << item
       if item.type == 'Weapon'
         item.equipped = true
         target.equipped_weapon = item
@@ -109,7 +110,7 @@ class Player < Character
     file.puts @gold
     file.puts @level
     file.puts @exp
-    file.print @inventory.list_items
+    file.puts @inventory.list_unequipped_items
     file.puts @hp
     file.puts @mp
     file.puts @attack

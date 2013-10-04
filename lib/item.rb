@@ -10,7 +10,7 @@ class Item
         attributes = line.split(", ")
         if attributes[0] == name
           args = { name: attributes[0], type: attributes[1], stat: attributes [2],
-            price: attributes[3], effect: attributes[4], equipped: attributes[5],
+            price: attributes[3], effect: attributes[4], equipped: false,
             equipable: attributes[6], usable: attributes[7].chomp }
         end
       end
@@ -79,7 +79,7 @@ class Item
       puts "That can't be unequipped."
     end
 
-    self.equipped = false
+    @equipped = false
   end
 
   def equipped?

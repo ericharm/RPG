@@ -72,7 +72,7 @@ class Shop
 
     if target.inventory.list_items.include?(choice)
       sold_item = target.inventory.contents.find { |item| item.name == choice }
-      if sold_item.equipped?
+      if sold_item.equipped? == true
         puts "You can not sell an equipped item."
       else
         target.gold += sold_item.price.to_i/2
