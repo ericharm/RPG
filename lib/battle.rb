@@ -1,18 +1,18 @@
 require 'monster'
 require 'player'
-require 'monster_selector'
+require 'battle_helper'
 
 class Battle
 
-  include MonsterSelector
+  include BattleHelper
 
   attr_accessor :player, :monster, :bestiary, :first_striker, :second_striker, :levelcap
 
   def initialize
     @player = Player.player_one
     @levelcap = 5
-    @bestiary = [ "Bat", "Skeleton", "Wolf", "Spider", "Bandit", "Pundit", "Wutzit" ]
-    select_monster
+    @bestiary = Monster.monsters_list
+    create_monster
     fight
   end
 
@@ -78,33 +78,6 @@ class Battle
     @player.exp += @monster.exp
     puts "#{@player.name} receives #{@monster.gold} Gold and #{@monster.exp} Exp."
     get_level
-  end
-
-  def get_level
-    level_data = []
-    file = File.open('levels.csv','r')
-    file.each_line do |line|
-      level_data_as_strings = line.split(", ")
-      if level_data_as_strings[0].to_i == @player.level
-        level_data_as_strings.each { |value| level_data << value.chomp.to_i }
-      end
-    end
-    file.close
-    level_up(level_data) if @player.exp >= level_data[1]
-  end
-
-  def level_up(data)
-      puts "#{@player.name} has leveled up!"
-      stat_mod = data[2]
-      @player.level += 1
-      @player.exp_next = data[3]
-      @player.maxhp += rand(stat_mod)
-      @player.maxmp += rand(stat_mod)
-      @player.hp = @player.maxhp
-      @player.mp = @player.maxmp
-      @player.attack += rand(stat_mod)
-      @player.defense += rand(stat_mod)
-      @player.acc += 1
   end
 
 end

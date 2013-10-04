@@ -19,9 +19,6 @@ Negative Damage
 Future Features
 ---------------
 
-Battle scaling- Enemies will be chosen based on player level
-with some variation.
-
 Item drops- Monsters will randomly drop items.
 
 Class differentiation- In battles, Mages will cast spells, Rogues

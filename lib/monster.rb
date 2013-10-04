@@ -18,4 +18,13 @@ class Monster < Character
     file.close
     Monster.new(args)
   end
+
+  def self.monsters_list
+    file = File.open('monsters.csv', 'r')
+    all_monsters = []
+    file.each_line { |line| all_monsters << line.split(", ") }
+    file.close
+    all_monsters.map { |monster| monster[0] }
+  end
+
 end
