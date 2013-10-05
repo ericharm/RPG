@@ -29,7 +29,6 @@ class Inventory
       else
         puts "I don't understand."
     end
-
     inv_menu unless choice == 'exit'
   end
 
@@ -53,7 +52,6 @@ class Inventory
     else
       check_if_same_type_equipped(item_to_equip)
     end
-
   end
 
   def check_if_same_type_equipped(item_to_equip)

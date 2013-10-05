@@ -20,40 +20,24 @@ class Character
     @exp_next = args[:exp_next].to_i
   end
 
-  #consider this also for battle class
-  def increase(stat, amount)
+  def change_stat(stat, amount, add_subtract = :add)
+    amount = amount * (-1) if add_subtract == :subtract
     case stat
-    when "hp"
+    when :hp
       @hp += amount
-    when "mp"
+    when :mp
       @mp += amount
-    when "attack"
+    when :attack
       @attack += amount
-    when "defense"
+    when :defense
       @defense += amount
-    when "gold"
+    when :gold
       @gold +=amount
-    when "exp"
+    when :exp
       @exp +=amount
     end
     @hp = @maxhp if @hp > @maxhp
-  end
-
-  def decrease(stat, amount)
-    case stat
-    when "hp"
-      @hp -= amount
-    when "mp"
-      @mp -= amount
-    when "attack"
-      @attack -= amount
-    when "defense"
-      @defense -= amount
-    when "gold"
-      @gold -=amount
-    when "experience"
-      @exp -=amount
-    end
+    @mp = @maxmp if @mp > @maxmp
   end
 
   def list_stats

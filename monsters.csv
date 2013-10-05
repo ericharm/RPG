@@ -1,8 +1,33 @@
 Name, Class, Gold, Level, Exp, Inv, MaxHp, MaxMp, Attack, Def, Accuracy
-Bat, Monster, 6, 1, 6, nil, 8, 0, 4, 4, 80
-Skeleton, Monster, 18, 1, 18, nil, 16, 0, 8, 6, 78
-Wolf, Monster, 6, 1, 24, nil, 20, 0, 8, 0, 70
-Spider, Monster, 22, 2, 90, nil, 72, 0, 14, 0, 74
-Bandit, Guy, 50, 3, 150, nil, 92, 0, 18, 12, 66
-Pundit, Guy, 50, 4, 150, nil, 92, 0, 18, 12, 66
-Wutzit, Guy, 50, 5, 150, nil, 92, 0, 18, 12, 66
+Bat, Beast, 3, 1, 4, nil, 8, 0, 4, 4, 80
+Slime, Monster, 5, 1, 6, nil, 10, 0, 5, 5, 80
+Corpse, Undead, 18, 2, 18, nil, 16, 0, 8, 6, 78
+Wolf, Beast, 6, 2, 24, nil, 20, 0, 8, 0, 70
+Jelly, Monster, 0, 3, 90, nil, 72, 0, 14, 0, 74
+Spider, Bug, 22, 3, 90, nil, 72, 0, 14, 0, 74
+Bandit, Humanoid, 50, 4, 150, nil, 92, 0, 18, 12, 66
+Zombie, Undead, 0, 4, 90, nil, 72, 0, 14, 0, 74
+Ogre, Monster, 5, 90, nil, 72, 0, 14, 0, 74
+Eye, Monster, 0, 5, 90, nil, 72, 0, 14, 0, 74
+Bull, Beast, 0, 6, 90, nil, 72, 0, 14, 0, 74
+Skeleton, Undead, 0, 6, 90, nil, 72, 0, 14, 0, 74
+Drake, Dragon, 0, 6, 90, nil, 72, 0, 14, 0, 74
+Shark, Beast, 50, 7, 150, nil, 92, 0, 18, 12, 66
+Cannibal, Humanoid, 50, 7, 150, nil, 92, 0, 18, 12, 66
+Vampire, Monster, 0, 7, 150, nil, 92, 0, 18, 12, 66
+Tiger, Beast, 0, 8, 150, nil, 92, 0, 18, 12, 66
+Giant, Monster, 0, 8, 150, nil, 92, 0, 18, 12, 66
+Dinosaur, Beast, 0, 8, 150, nil, 92, 0, 18, 12, 66
+Werewolf, Monster, 0, 9, 150, nil, 92, 0, 18, 12, 66
+Green Dragon, Dragon, 0, 9, 150, nil, 92, 0, 18, 12, 66
+Rhinoceros, Beast, 0, 9, 150, nil, 92, 0, 18, 12, 66
+Assassin, Humanoid, 0, 10, 150, nil, 92, 0, 18, 12, 66
+Death Knight, Undead, 0, 10, 150, nil, 92, 0, 18, 12, 66
+Storm Dragon, Dragon, 0, 10, 150, nil, 92, 0, 18, 12, 66
+Flying Monkey, Monster, 0, 11, 150, nil, 92, 0, 18, 12, 66
+Fire Dragon, Dragon, 0, 11, 150, nil, 92, 0, 18, 12, 66
+Shapeshifter, Monster, 0, 11, 150, nil, 92, 0, 18, 12, 66
+Ice Dragon, Dragon, 0, 12, 150, nil, 92, 0, 18, 12, 66
+Devil, Monster, 0, 12, 150, nil, 92, 0, 18, 12, 66
+Death Dragon, Dragon, 0, 12, 150, nil, 92, 0, 18, 12, 66
+Final Boss, Monster, 13, 150, nil, 92, 0, 18, 12, 66

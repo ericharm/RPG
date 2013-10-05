@@ -10,7 +10,7 @@ class Battle
 
   def initialize
     @player = Player.player_one
-    @levelcap = 5
+    @levelcap = 13
     @bestiary = Monster.monsters_list
     create_monster
     fight
@@ -57,7 +57,7 @@ class Battle
     hit_strength = (attacker.attack * hit_bonus - attacked.defense).to_i
     hit_strength = attacked.hp if hit_strength > attacked.hp
     hit_strength = 0 if determine_miss attacker || hit_strength < 0
-    attacked.decrease("hp", hit_strength)
+    attacked.change_stat(:hp, hit_strength, :subtract)
     puts "#{attacker.name} hits #{attacked.name} for #{hit_strength} hit points."
     print "#{attacker.name} HP: #{attacker.hp} / #{attacker.maxhp} . . ."
     print " #{attacked.name} HP: #{attacked.hp} / #{attacked.maxhp}\n"
@@ -74,8 +74,8 @@ class Battle
   end
 
   def victory
-    @player.increase("gold", @monster.gold)
-    @player.increase("exp", @monster.exp)
+    @player.change_stat(:gold, @monster.gold)
+    @player.change_stat(:exp, @monster.exp)
     puts "#{@player.name} receives #{@monster.gold} Gold and #{@monster.exp} Exp."
     get_level
   end

@@ -57,13 +57,13 @@ class Shop
     print "I have: > > >  "
     p @shop_inventory.map { |item| "#{item.name}: #{item.price} G"}
     Game.prompt("(#{target.gold} G)  What do you want to buy?")
-    choice = gets.downcase.chomp.capitalize
-    item_to_buy = @shop_inventory.find { |item| item.name == choice }
+    choice = gets.downcase.chomp
+    item_to_buy = @shop_inventory.find { |item| item.name.downcase == choice }
 
     unless item_to_buy.nil?
       if target.gold > item_to_buy.price.to_i
         target.inventory.add_item(item_to_buy)
-        target.gold -= item_to_buy.price.to_i
+        target.change_stat(:gold, item_to_buy.price.to_i, :subtract)
         puts "You bought #{item_to_buy.name} for #{item_to_buy.price} Gold."
       else
         puts "You can't afford that."
@@ -85,7 +85,7 @@ class Shop
       if sold_item.equipped? == true
         puts "You can not sell an equipped item."
       else
-        target.gold += sold_item.price.to_i/2
+        target.change_stat(:gold, sold_item.price.to_i/2)
         puts "You sold #{sold_item.name} for #{sold_item.price.to_i/2} Gold."
         target.inventory.remove_item(sold_item)
       end
