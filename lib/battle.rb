@@ -42,7 +42,7 @@ class Battle
   end
 
   def battle_menu
-    p @@choices
+    puts "\n " + @@choices.to_s
     Game.prompt
     choice = gets.chomp.downcase
     case choice

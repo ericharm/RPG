@@ -4,7 +4,7 @@ require 'shop'
 
 class Game
 
-  @@actions = ['Fight', 'Shop', 'Inventory', 'Stats', 'Save', 'Quit']
+  @@actions = ['Fight', 'Shop', 'Inventory', 'Stats', 'Rest', 'Save', 'Quit']
   attr_accessor :player
 
   def self.prompt(text="")
@@ -56,7 +56,9 @@ class Game
       when 'inventory'
         @player.inventory.inv_menu # inventory
       when 'stats'
-        @player.list_stats # stats
+        @player.list_stats
+      when 'rest'
+        rest
       when 'save'
         @player.save
       when 'use'
@@ -77,4 +79,24 @@ class Game
         puts "I don't know that command"
     end
   end
+
+  def rest
+    puts "\n >     Rest"
+    puts "\n Half your gold to rest? ( #{@player.gold} G )"
+    Game.prompt("( yes/no ) ")
+    choice = gets.chomp.downcase[0]
+    if choice == 'y'
+      @player.change_stat(:hp, @player.hp, :subtract)
+      @player.change_stat(:hp, @player.maxhp)
+      @player.change_stat(:mp, @player.mp, :subtract)
+      @player.change_stat(:mp, @player.maxmp)
+      cost = @player.gold / 2
+      @player.change_stat(:gold, cost, :subtract)
+      puts " - #{cost} Gold."
+      puts "Health Restored\nMana restored."
+    else
+      puts "You'll be back. . ."
+    end
+  end
+
 end

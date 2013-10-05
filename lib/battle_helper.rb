@@ -16,7 +16,7 @@ module BattleHelper
       dice_count = @player_class == "Mage" ? 3 : 2
       bonus_damage = roll_dice(dice_count)
       @player.change_stat(:attack, bonus_damage)
-      puts "ZAP!"
+      puts "\nZAP!  ( #{@player.mp}/#{@player.maxmp} MP )"
       hit(@player, @monster)
       @player.change_stat(:attack, bonus_damage, :subtract)
       hit(@monster, @player) unless @monster.dead?
@@ -29,7 +29,6 @@ module BattleHelper
     puts "\n#{@player.name} be Charging. . .\n"
     2.times { hit(@monster, @player) }
     check_for_fatal_blow
-    #decide on an amount of times based on class
     dice_count = @player_class == "Warrior" ? 3 : 2
     p = roll_dice(dice_count) - dice_count
     puts "\n#{@player.name} unleashes #{p} strikes!"
@@ -42,12 +41,12 @@ module BattleHelper
     dice_count = @player.player_class == "Rogue" ? 3 : 2
     p = roll_dice(dice_count)
     if p < 7
-      puts "Failed to escape."
+      puts "\nFailed to escape."
       hit(@monster, @player)
       check_for_fatal_blow
       battle_menu unless @player.dead?
     else
-      puts "Got away safely. . ."
+      puts "\nGot away safely. . ."
     end
   end
 
@@ -89,9 +88,9 @@ module BattleHelper
     hit_strength = 0 if determine_miss attacker || hit_strength < 0
     attacked.change_stat(:hp, hit_strength, :subtract)
     if hit_strength > 0
-      puts "#{attacker.name} hits #{attacked.name} for #{hit_strength} hit points."
+      puts "\n#{attacker.name} hits #{attacked.name} for #{hit_strength} hit points."
     else
-      puts "#{attacker.name} misses #{attacked.name} entirely!"
+      puts "\n#{attacker.name} misses #{attacked.name} entirely!"
     end
     print "#{attacker.name} HP: #{attacker.hp} / #{attacker.maxhp} . . ."
     puts " #{attacked.name} HP: #{attacked.hp} / #{attacked.maxhp}"
@@ -100,7 +99,7 @@ module BattleHelper
   def determine_miss(attacker)
     roll = rand(attacker.acc)
     if roll < 100-attacker.acc
-      puts "MISS!"
+      puts "\nMISS!"
       return true
     else
       return false
