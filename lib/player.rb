@@ -48,6 +48,7 @@ class Player < Character
 
     player = Player.new(args)
     load_inventory(player)
+    player.list_stats
     Player.player_one = player
   end
 

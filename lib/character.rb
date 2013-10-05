@@ -49,10 +49,10 @@ class Character
     puts "Attack: #{@attack}"
     puts "Defense: #{@defense}"
     puts "Accuracy: #{@acc}"
-    puts "Inventory: #{@inventory.list_items}"
+    puts "Inventory: #{@inventory.list_items}" if self.class == Player
   end
 
-  def is_dead?
+  def dead?
     if @hp <= 0
       return true
     else

@@ -1,4 +1,4 @@
 Class, Gold, Level, Exp, Item, HP, MP, Attack, Def, Accuracy
-Mage, 0, 1, 0, Staff, 26, 15, 14, 6, 92
-Rogue, 0, 1, 0, Dagger, 30, 5, 10, 8, 85
-Warrior, 0, 1, 0, Sword, 35, 0, 7, 12, 75
+Mage, 0, 1, 0, Staff, 26, 15, 14, 5, 84
+Rogue, 0, 1, 0, Dagger, 30, 5, 10, 6, 88
+Warrior, 0, 1, 0, Sword, 35, 0, 7, 8, 80

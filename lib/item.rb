@@ -30,8 +30,8 @@ class Item
   end
 
   def use(target)
-    target.increase(@stat.to_sym, @effect.to_i)
-    puts "Used #{@name}"
+    target.change_stat(@stat.to_sym, @effect.to_i)
+    puts "Used #{@name}: #{effect} #{stat}"
   end
 
   def equip(target)

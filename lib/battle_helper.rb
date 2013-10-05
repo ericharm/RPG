@@ -1,50 +1,95 @@
 module BattleHelper
 
-	def create_monster
-		roll = rand(1..6) + rand(1..6)
-		level_monster_to_retrieve = @player.level + roll - 7
-		level_monster_to_retrieve = 1 if level_monster_to_retrieve < 1
-		level_monster_to_retrieve = @levelcap if level_monster_to_retrieve > @levelcap
-		monster_name = choose_monster(level_monster_to_retrieve)
-	  @monster = Monster.load_monster(monster_name)
-	end
+  def attack
+    hit(@first_striker, @second_striker) 
+    hit(@second_striker, @first_striker) unless @second_striker.dead?
+    check_for_fatal_blow
+    battle_menu unless @first_striker.dead? || @second_striker.dead?
+  end
 
-	def choose_monster(monster_level)
-		possible_monsters = []
-		file = File.open('monsters.csv', 'r')
-			file.each_line do |line|
-				a = line.split(", ")
-				possible_monsters << a if a[3].to_i == monster_level
-			end
-		file.close
-		choice = possible_monsters[rand(possible_monsters.length)]
-		choice[0]
-	end
+  def zap
 
-  def get_level
-    level_data = []
-    file = File.open('levels.csv','r')
-    file.each_line do |line|
-      level_data_as_strings = line.split(", ")
-      if level_data_as_strings[0].to_i == @player.level
-        level_data_as_strings.each { |value| level_data << value.chomp.to_i }
-      end
+  end
+
+  def charge
+
+  end
+
+  def run
+    dice_count = @player.player_class == "Rogue" ? 3 : 2
+    p = roll_dice(dice_count)
+    puts p
+    if p < 7
+      puts "Failed to escape."
+      hit(@monster, @player)
+      check_for_fatal_blow
+      battle_menu unless @player.dead?
+    else
+      puts "Got away safely. . ."
     end
-    file.close
-    level_up(level_data) if @player.exp >= level_data[1]
   end
 
-  def level_up(data)
-      puts "#{@player.name} has leveled up!"
-      stat_mod = data[2]
-      @player.level += 1
-      @player.exp_next = data[3]
-      @player.maxhp += rand(stat_mod)
-      @player.maxmp += rand(stat_mod)
-      @player.hp = @player.maxhp
-      @player.mp = @player.maxmp
-      @player.attack += rand(stat_mod)
-      @player.defense += rand(stat_mod)
-      @player.acc += 1
+  def roll_dice(dice_count)
+    roll = 0
+    dice_count.times { roll += rand(1..6) }
+    roll
   end
+
+  def check_for_fatal_blow
+    if @monster.dead?
+      puts "#{@monster.name} has been killed!"
+      victory
+    elsif @player.dead?
+      puts "#{@player.name} has been killed!"
+      puts "\n > > >  You have died!  < < <\n"
+      Game.game_over
+    end
+  end
+
+  def fight
+    until @first_striker.dead? || @second_striker.dead?
+      hit(@first_striker, @second_striker) 
+      hit(@second_striker, @first_striker) unless @second_striker.dead?
+    end
+  end
+
+  def determine_first_strike
+    level_gap = (@monster.level.to_i - @player.level.to_i) + 2
+    who_goes_first = rand level_gap
+    if who_goes_first == 0
+      @first_striker = @player
+      @second_striker = @monster
+    else
+      @first_striker = @monster
+      @second_striker = @player
+    end
+    puts "#{@first_striker.name} approaches #{@second_striker.name}!"
+    puts @monster.list_stats
+  end
+
+  def hit(attacker, attacked)
+    hit_bonus = rand(100..200).to_f/100
+    hit_strength = (attacker.attack * hit_bonus - attacked.defense).to_i
+    hit_strength = attacked.hp if hit_strength > attacked.hp
+    hit_strength = 0 if determine_miss attacker || hit_strength < 0
+    attacked.change_stat(:hp, hit_strength, :subtract)
+    if hit_strength > 0
+      puts "#{attacker.name} hits #{attacked.name} for #{hit_strength} hit points."
+    else
+      puts "#{attacker.name} misses #{attacked.name} entirely!"
+    end
+    print "#{attacker.name} HP: #{attacker.hp} / #{attacker.maxhp} . . ."
+    puts " #{attacked.name} HP: #{attacked.hp} / #{attacked.maxhp}"
+  end
+
+  def determine_miss(attacker)
+    roll = rand(attacker.acc)
+    if roll < 100-attacker.acc
+      puts "MISS!"
+      return true
+    else
+      return false
+    end
+  end
+
 end

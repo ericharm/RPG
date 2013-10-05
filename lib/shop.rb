@@ -8,11 +8,18 @@ class Shop
 
   attr_accessor :shop_inventory, :target
 
-  def initialize
+  def initialize(menu)
     @target = Player.player_one
     @shop_inventory = []
     set_shop_inventory
-    shop_menu
+    case menu
+    when :buy
+      buy
+    when:sell
+      sell
+    else
+      shop_menu
+    end
   end
 
   def set_shop_inventory
@@ -34,7 +41,7 @@ class Shop
 
   def shop_menu
     puts "\n > > > SHOP"
-    puts "\n #{list_items}"
+    # puts "\n #{list_items}"
     puts "Welcome to the shop. How can I help you?"
     Game.prompt @@choices
     choice = gets.downcase.chomp
@@ -56,7 +63,7 @@ class Shop
   def buy
     print "I have: > > >  "
     p @shop_inventory.map { |item| "#{item.name}: #{item.price} G"}
-    Game.prompt("(#{target.gold} G)  What do you want to buy?")
+    Game.prompt("What do you want to buy? (#{target.gold} G)")
     choice = gets.downcase.chomp
     item_to_buy = @shop_inventory.find { |item| item.name.downcase == choice }
 

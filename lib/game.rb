@@ -52,7 +52,7 @@ class Game
       when 'fight'
         fight = Battle.new
       when 'shop'
-        shop = Shop.new
+        shop = Shop.new(:shop)
       when 'inventory'
         @player.inventory.inv_menu # inventory
       when 'stats'
@@ -67,6 +67,10 @@ class Game
         @player.inventory.unequip
       when 'equipped'
         @player.inventory.equipped
+      when 'buy'
+        shop = Shop.new(:buy)
+      when 'sell'
+        shop = Shop.new(:sell)
       when 'quit'
         exit
       else
