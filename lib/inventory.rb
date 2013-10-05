@@ -36,8 +36,12 @@ class Inventory
     Game.prompt "Use what?"
     choice = gets.downcase.chomp
     item_to_use = @contents.find { |item| item.name.downcase == choice }
-    item_to_use.use( Player.player_one ) if item_to_use.usable
-    remove_item(item_to_use) if item_to_use.type == "Consumable"
+    if item_to_use.nil?
+      puts "You don't have one of those."
+    else
+      item_to_use.use( Player.player_one ) if item_to_use.usable
+      remove_item(item_to_use) if item_to_use.type == "Consumable"
+    end
   end
 
   def equip

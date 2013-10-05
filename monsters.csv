@@ -3,6 +3,7 @@ Bat, Beast, 3, 1, 4, nil, 16, 0, 7, 8, 80
 Slime, Monster, 5, 1, 6, nil, 18, 0, 10, 7, 80
 Corpse, Undead, 8, 2, 8, nil, 26, 0, 8, 9, 78
 Wolf, Beast, 3, 2, 14, nil, 20, 0, 12, 7, 70
+Goblin, Humanoid, 10, 3, 20, nil, 28, 0, 10, 10, 77
 Jelly, Monster, 6, 3, 12, nil, 32, 0, 14, 9, 74
 Spider, Bug, 12, 3, 16, nil, 42, 0, 14, 10, 74
 Bandit, Humanoid, 20, 4, 20, nil, 62, 0, 18, 12, 66

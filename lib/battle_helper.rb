@@ -37,6 +37,14 @@ module BattleHelper
     battle_menu unless @first_striker.dead? || @second_striker.dead?
   end
 
+  def item
+    puts @player.inventory.list_items.to_s
+    @player.inventory.use
+    hit(@monster, @player) unless @monster.dead?
+    check_for_fatal_blow
+    battle_menu unless @player.dead? || @monster.dead?
+  end
+
   def run
     dice_count = @player.player_class == "Rogue" ? 3 : 2
     p = roll_dice(dice_count)

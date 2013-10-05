@@ -12,7 +12,7 @@ class Game
   end
 
   def self.game_over
-    puts " > > > GAME OVER"
+    puts " > > >    GAME OVER    < < <"
     exit
   end
 
@@ -92,7 +92,7 @@ class Game
       @player.change_stat(:mp, @player.maxmp)
       cost = @player.gold / 2
       @player.change_stat(:gold, cost, :subtract)
-      puts " - #{cost} Gold."
+      puts "\n - #{cost} Gold."
       puts "Health Restored\nMana restored."
     else
       puts "You'll be back. . ."

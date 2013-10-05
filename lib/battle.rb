@@ -52,6 +52,8 @@ class Battle
         zap
       when 'charge'
         charge
+      when 'item'
+        item
       when 'run'
         run
       else
@@ -84,6 +86,7 @@ class Battle
       @player.attack += rand(stat_mod)
       @player.defense += rand(stat_mod)
       @player.acc += 1
+      puts @player.list_stats
   end
 
   def victory
