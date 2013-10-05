@@ -8,18 +8,28 @@ class Shop
 
   attr_accessor :shop_inventory, :target
 
-  def list_items
-    items = []
-    @shop_inventory.each { |item| items << item.name }
-    items
-  end
-
   def initialize
     @target = Player.player_one
-
-    @shop_inventory = [ Item.load_item_from_file("Potion"), Item.load_item_from_file("Ether"),
-                      Item.load_item_from_file("Sword"), Item.load_item_from_file("Leather") ]
+    @shop_inventory = []
+    set_shop_inventory
     shop_menu
+  end
+
+  def set_shop_inventory
+    all_items = []
+    file = File.open('items.csv', 'r')
+    file.each_line do |line|
+      a = line.split(", ")
+      name = a[0]
+      all_items << name unless name == "Name"
+    end
+    all_items.each do |item| 
+      @shop_inventory << Item.load_item_from_file(item) 
+    end
+  end
+
+  def list_items
+    @shop_inventory.map { |item| item.name }
   end
 
   def shop_menu

@@ -1,5 +1,11 @@
 Name, Type, Stat, Price, Effect, Equipped, Equipable, Usable
-Potion, Consumable, hp, 10, 20, false, false, true
-Ether, Consumable, mp, 10, 10, false, false, true
-Sword, Weapon, attack, 0, 2, false, true, false
-Leather, Armor, defense, 0, 2, false, true, false
+Potion, Consumable, hp, 10, 10, false, false, true
+Hi-Potion, Consumable, hp, 40, 35, false, false, true
+X-Potion, Consumable, hp, 80, 100, false, false, true
+Ether, Consumable, mp, 30, 10, false, false, true
+MegaEther, Consumable, mp, 70, 40, false, false, true
+Dagger, Weapon, attack, 45, 2, false, true, false
+Sword, Weapon, attack, 90, 4, false, true, false
+Cloth, Armor, defense, 35, 2, false, true, false
+Leather, Armor, defense, 70, 3, false, true, false
+Cap, Helmet, defense, 20, 1, false, true, false

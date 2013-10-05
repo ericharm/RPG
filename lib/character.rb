@@ -21,8 +21,7 @@ class Character
   end
 
   #consider this also for battle class
-  def increase_stat(stat, amount)
-    puts "== Your #{stat.capitalize} increased by #{amount}"
+  def increase(stat, amount)
     case stat
     when "hp"
       @hp += amount
@@ -34,14 +33,13 @@ class Character
       @defense += amount
     when "gold"
       @gold +=amount
-    when "experience"
+    when "exp"
       @exp +=amount
     end
     @hp = @maxhp if @hp > @maxhp
   end
 
-  def decrease_stat(stat, amount)
-    puts "== Your #{stat.capitalize} decreased by #{amount}"
+  def decrease(stat, amount)
     case stat
     when "hp"
       @hp -= amount

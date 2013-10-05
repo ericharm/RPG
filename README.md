@@ -6,15 +6,12 @@ The Game
 
 Choose a class and fight monsters to gain Gold and Experience,
 improving your character and collecting useful items to
-continue battling until you can find the dreaded Final Boss
-and strike him down. 
+continue battling until you can find and kill the final boss.
 
 Known bugs
 ----------
 
 Nil Items
-Negative Damage
-
 
 Future Features
 ---------------

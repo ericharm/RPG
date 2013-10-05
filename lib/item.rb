@@ -30,19 +30,19 @@ class Item
   end
 
   def use(target)
-    target.increase_stat(@stat.to_s, @effect.to_i)
+    target.increase(@stat.to_s, @effect.to_i)
     puts "Used #{@name}"
   end
 
   def equip(target)
     @equipped = true
-    target.increase_stat(@stat, @effect)
+    target.increase(@stat, @effect)
     puts "Equipped #{name}: + #{effect} #{stat}"
   end
 
   def unequip(target)
     @equipped = false
-    target.decrease_stat(@stat, @effect)
+    target.decrease(@stat, @effect)
     puts "Unequipped  #{name}: - #{effect} #{stat}"
   end
 

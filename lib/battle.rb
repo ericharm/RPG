@@ -74,7 +74,7 @@ class Battle
   end
 
   def victory
-    @player.increase(gold, @monster.gold)
+    @player.increase("gold", @monster.gold)
     @player.increase("exp", @monster.exp)
     puts "#{@player.name} receives #{@monster.gold} Gold and #{@monster.exp} Exp."
     get_level
