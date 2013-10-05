@@ -51,7 +51,6 @@ class Player < Character
     Player.player_one = player
   end
 
-  # move to inventory?
   def self.load_inventory(target)
     attributes = []
     file = File.open('player.csv', 'r')
@@ -60,6 +59,7 @@ class Player < Character
     items_to_create = clean_items_string.split(", ")
     equipped_items_string = attributes[14].tr('"[]',"")
     items_to_equip = equipped_items_string.split(", ")
+
     items_to_create.each do |item_name|
       item = Item.load_item_from_file(item_name)
       target.inventory.contents << item
@@ -67,18 +67,9 @@ class Player < Character
 
     items_to_equip.each do |item_name|
       item = Item.load_item_from_file(item_name)
+      item.equipped = true
       target.inventory.contents << item
-      if item.type == 'Weapon'
-        item.equipped = true
-        target.equipped_weapon = item
-      elsif item.type == 'Armor'
-        item.equipped = true
-        target.equipped_armor = item
-      else
-        puts "Nothing happened."
-      end
     end
-    
   end
 
   def self.player_one
@@ -89,35 +80,16 @@ class Player < Character
     @@player_one = player
   end
 
-  def list_stats
-    puts "\n > > > #{@name.upcase}"
-    puts "Class: #{@player_class}"
-    puts "Exp: #{@exp} / #{@exp_next}   Level: #{@level}"
-    puts "Gold: #{@gold}"
-    puts "HP: #{@hp} / #{@maxhp}  MP: #{@mp} / #{@maxmp}"
-    puts "Attack: #{@attack}"
-    puts "Defense: #{@defense}"
-    puts "Accuracy: #{@acc}"
-    puts "Inventory: #{@inventory.list_items}"
-  end
-
   def save
     file = File.open('player.csv', 'w')
-    file.puts @name
-    file.puts @player_class
-    file.puts @gold
-    file.puts @level
-    file.puts @exp
-    file.puts @inventory.list_unequipped_items
-    file.puts @hp
-    file.puts @mp
-    file.puts @attack
-    file.puts @defense
-    file.puts @acc
-    file.puts @maxhp
-    file.puts @maxmp
-    file.puts @exp_next
-    file.puts @inventory.list_equipped_items
+    file.puts @name;    file.puts @player_class
+    file.puts @gold;    file.puts @level;    file.puts @exp
+    file.puts @inventory.list_items_equipped?(false).to_s
+    file.puts @hp;    file.puts @mp
+    file.puts @attack;    file.puts @defense
+    file.puts @acc;    file.puts @maxhp
+    file.puts @maxmp;    file.puts @exp_next
+    file.puts @inventory.list_items_equipped?(true).to_s
     file.close
     puts ". . . #{name} saved."
   end

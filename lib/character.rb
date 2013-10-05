@@ -1,8 +1,7 @@
 class Character
 
   attr_accessor :name, :player_class, :gold, :level, :exp, :inventory,
-  :hp, :mp, :attack, :defense, :acc, :maxhp, :maxmp, :exp_next,
-  :equipped_weapon, :equipped_armor
+  :hp, :mp, :attack, :defense, :acc, :maxhp, :maxmp, :exp_next
 
   def initialize(args = {})
     @name = args[:name]
@@ -19,6 +18,56 @@ class Character
     @maxhp = args[:maxhp].to_i
     @maxmp = args[:maxmp].to_i
     @exp_next = args[:exp_next].to_i
+  end
+
+  #consider this also for battle class
+  def increase_stat(stat, amount)
+    puts "== Your #{stat.capitalize} increased by #{amount}"
+    case stat
+    when "hp"
+      @hp += amount
+    when "mp"
+      @mp += amount
+    when "attack"
+      @attack += amount
+    when "defense"
+      @defense += amount
+    when "gold"
+      @gold +=amount
+    when "experience"
+      @exp +=amount
+    end
+    @hp = @maxhp if @hp > @maxhp
+  end
+
+  def decrease_stat(stat, amount)
+    puts "== Your #{stat.capitalize} decreased by #{amount}"
+    case stat
+    when "hp"
+      @hp -= amount
+    when "mp"
+      @mp -= amount
+    when "attack"
+      @attack -= amount
+    when "defense"
+      @defense -= amount
+    when "gold"
+      @gold -=amount
+    when "experience"
+      @exp -=amount
+    end
+  end
+
+  def list_stats
+    puts "\n > > > #{@name.upcase}"
+    puts "Class: #{@player_class}"
+    puts "Exp: #{@exp} / #{@exp_next}   Level: #{@level}"
+    puts "Gold: #{@gold}"
+    puts "HP: #{@hp} / #{@maxhp}  MP: #{@mp} / #{@maxmp}"
+    puts "Attack: #{@attack}"
+    puts "Defense: #{@defense}"
+    puts "Accuracy: #{@acc}"
+    puts "Inventory: #{@inventory.list_items}"
   end
 
   def is_dead?

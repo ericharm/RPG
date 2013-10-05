@@ -57,7 +57,7 @@ class Battle
     hit_strength = (attacker.attack * hit_bonus - attacked.defense).to_i
     hit_strength = attacked.hp if hit_strength > attacked.hp
     hit_strength = 0 if determine_miss attacker || hit_strength < 0
-    attacked.hp -= hit_strength
+    attacked.decrease("hp", hit_strength)
     puts "#{attacker.name} hits #{attacked.name} for #{hit_strength} hit points."
     print "#{attacker.name} HP: #{attacker.hp} / #{attacker.maxhp} . . ."
     print " #{attacked.name} HP: #{attacked.hp} / #{attacked.maxhp}\n"
@@ -74,8 +74,8 @@ class Battle
   end
 
   def victory
-    @player.gold += @monster.gold
-    @player.exp += @monster.exp
+    @player.increase(gold, @monster.gold)
+    @player.increase("exp", @monster.exp)
     puts "#{@player.name} receives #{@monster.gold} Gold and #{@monster.exp} Exp."
     get_level
   end

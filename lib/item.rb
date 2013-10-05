@@ -11,7 +11,7 @@ class Item
         if attributes[0] == name
           args = { name: attributes[0], type: attributes[1], stat: attributes [2],
             price: attributes[3], effect: attributes[4], equipped: false,
-            equipable: attributes[6], usable: attributes[7].chomp }
+            equipable: attributes[6].to_sym, usable: attributes[7].chomp.to_sym }
         end
       end
     file.close
@@ -30,56 +30,20 @@ class Item
   end
 
   def use(target)
-    case stat
-    when "hp"
-      target.hp+=@effect.to_i
-      target.hp = target.maxhp if target.hp > target.maxhp
-    end
+    target.increase_stat(@stat.to_s, @effect.to_i)
     puts "Used #{@name}"
-    puts "#{target.name}'s #{@stat.to_s} changed by #{@effect}."
   end
 
   def equip(target)
-    case type
-    when 'Weapon'
-      if Player.player_one.equipped_weapon.nil?
-        target.equipped_weapon = self
-        target.attack += target.equipped_weapon.effect
-        puts "Equipped #{target.equipped_weapon.name}: + #{target.equipped_weapon.effect} " +
-             "#{target.equipped_weapon.stat}"
-      else
-        puts "You've already got a weapon equipped."
-      end
-    when 'Armor'
-      if Player.player_one.equipped_armor.nil?
-        target.equipped_armor = self
-        target.defense += target.equipped_armor.effect
-        puts "Equipped #{target.equipped_armor.name}: + #{target.equipped_armor.effect} " + 
-             "#{target.equipped_armor.stat}"
-      else
-        puts "You've already got armor equipped."
-      end
-    else
-      puts "You can't equip that type of thing."
-    end
-    self.equipped = true
+    @equipped = true
+    target.increase_stat(@stat, @effect)
+    puts "Equipped #{name}: + #{effect} #{stat}"
   end
 
   def unequip(target)
-    case type
-    when 'Weapon'
-      target.attack -= target.equipped_weapon.effect
-      puts "Removed  #{target.equipped_weapon.name}: - #{target.equipped_weapon.effect} #{target.equipped_weapon.stat}"
-      target.equipped_weapon = nil
-    when 'Armor'
-      target.defense -= target.equipped_armor.effect
-      puts "Removed  #{target.equipped_armor.name}: - #{target.equipped_armor.effect} #{target.equipped_armor.stat}"
-      target.equipped_armor = nil
-    else
-      puts "That can't be unequipped."
-    end
-
     @equipped = false
+    target.decrease_stat(@stat, @effect)
+    puts "Unequipped  #{name}: - #{effect} #{stat}"
   end
 
   def equipped?

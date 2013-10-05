@@ -4,7 +4,7 @@ require 'shop'
 
 class Game
 
-  @@actions = ['Fight', 'Shop', 'Inventory', 'Stats', 'Save', 'Quit'] #  'Use', 'Equip', 'Unequip', 'Equipped',
+  @@actions = ['Fight', 'Shop', 'Inventory', 'Stats', 'Save', 'Quit']
   attr_accessor :player
 
   def self.prompt(text="")
@@ -50,63 +50,27 @@ class Game
   def do_action(action)
     case action
       when 'fight'
-        fight
+        fight = Battle.new
       when 'shop'
-        shop
+        shop = Shop.new
       when 'inventory'
-        inventory
+        @player.inventory.inv_menu # inventory
       when 'stats'
-        stats
+        @player.list_stats # stats
       when 'save'
-        save
+        @player.save
       when 'use'
-        use
+        @player.inventory.use # use
       when 'equip'
-        equip
+        @player.inventory.equip
       when 'unequip'
-        unequip
+        @player.inventory.unequip
       when 'equipped'
-        equipped
+        @player.inventory.equipped
       when 'quit'
         exit
       else
         puts "I don't know that command"
     end
-  end
-
-  def fight
-    fight = Battle.new
-  end
-
-  def shop
-    shop = Shop.new
-  end
-
-  def inventory
-    puts @player.inventory.inv_menu
-  end
-
-  def stats
-    @player.list_stats
-  end
-
-  def use
-    @player.inventory.use
-  end
-
-  def equip
-    @player.inventory.equip
-  end
-
-  def unequip
-    @player.inventory.unequip
-  end
-
-  def equipped
-    @player.inventory.equipped
-  end
-
-  def save
-    @player.save
   end
 end
