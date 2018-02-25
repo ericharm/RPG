@@ -8,7 +8,7 @@ Jelly, Monster, 6, 3, 12, nil, 32, 0, 14, 9, 74
 Spider, Bug, 12, 3, 16, nil, 42, 0, 14, 10, 74
 Bandit, Humanoid, 20, 4, 20, nil, 62, 0, 18, 12, 66
 Zombie, Undead, 10, 4, 28, nil, 52, 0, 14, 8, 74
-Ogre, Monster, 25, 38, nil, 62, 0, 14, 14, 74
+Ogre, Monster, 25, 38, nil, 62, 0, 14, 14, 8, 74
 Eye, Monster, 13, 5, 40, nil, 62, 0, 14, 10, 74
 Bull, Beast, 19, 6, 50, nil, 72, 0, 14, 12, 74
 Skeleton, Undead, 29, 6, 60, nil, 72, 0, 14, 8, 74
